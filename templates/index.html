@@ -27,7 +27,7 @@
 
 
     <!-- Results -->
-<div class="container mt-4" id="results">
+<div class="container mt-4 text-center" id="results">
 </div>
 
 <script>
@@ -35,15 +35,17 @@ const form = document.getElementById("search-form");
 const spinnerUrl = "https://media.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif";
 
 form.addEventListener("submit", (event) => {
-  event.preventDefault(); // prevent the form from submitting normally
+  event.preventDefault();
   const inputUrl = document.querySelector('input[name="url"]').value;
-  const url = `/screenshot?url=${encodeURIComponent(inputUrl)}`; // construct the URL with query string
+  const url = `/screenshot?url=${encodeURIComponent(inputUrl)}`;
 
-  // Show the loading spinner
+  const resultsContainer = document.getElementById("results");
+  resultsContainer.innerHTML = '';
+
   const spinner = document.createElement("img");
   spinner.src = spinnerUrl;
   spinner.className = "img-fluid";
-  document.getElementById("results").appendChild(spinner);
+  resultsContainer.appendChild(spinner);
 
   $.ajax({
     url: url,
@@ -55,7 +57,7 @@ form.addEventListener("submit", (event) => {
 
       // Remove the loading spinner and show the image
       spinner.remove();
-      document.getElementById("results").appendChild(img);
+      resultsContainer.appendChild(img);
     },
     error: function(xhr, status, error) {
       console.error(error);

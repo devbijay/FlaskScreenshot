@@ -14,16 +14,20 @@ templates = Jinja2Templates(directory="templates")
 
 
 async def take_screenshot(url):
-    browser = await launch()
-    page = await browser.newPage()
-    await page.setViewport({'width': 1920, 'height': 1080})
-    await page.goto(url)
-    await asyncio.sleep(2)  # wait for page to load completely
-    element = await page.querySelector('body')
-    bounding_box = await element.boundingBox()
-    ss_img = await element.screenshot({'clip': bounding_box})
-    await browser.close()
-    return Image.open(BytesIO(ss_img))
+    try:
+        browser = await launch(headless=True)
+        page = await browser.newPage()
+        await page.setViewport({'width': 1920, 'height': 1080})
+        await page.goto(url)
+        await asyncio.sleep(2)  # wait for page to load completely
+        # take a screenshot of the whole page within the viewport size
+        ss_img = await page.screenshot({'type': 'png', 'fullPage': True})
+        await browser.close()
+        return Image.open(BytesIO(ss_img))
+    except Exception:
+        with open("404.png", 'rb') as f:
+            img_bytes = f.read()
+        return Image.open(BytesIO(img_bytes))
 
 
 @app.get("/", response_class=HTMLResponse)
@@ -37,4 +41,4 @@ async def take_screenshot_endpoint(url: str):
     cropped_image = await take_screenshot(url)
     buffered = BytesIO()
     cropped_image.save(buffered, format="PNG")
-    return {"data": base64.b64encode(buffered.getvalue()).decode() }
+    return {"data": base64.b64encode(buffered.getvalue()).decode()}
