@@ -19,9 +19,8 @@ async def take_screenshot(url):
         page = await browser.newPage()
         await page.setViewport({'width': 1920, 'height': 1080})
         await page.goto(url)
-        await asyncio.sleep(2)  # wait for page to load completely
-        # take a screenshot of the whole page within the viewport size
-        ss_img = await page.screenshot({'type': 'png', 'fullPage': True})
+        await asyncio.sleep(2)
+        ss_img = await page.screenshot({'type': 'png', 'fullPage': False})
         await browser.close()
         return Image.open(BytesIO(ss_img))
     except Exception:
