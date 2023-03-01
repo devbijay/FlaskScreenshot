@@ -10,16 +10,16 @@
   <body>
     <!-- Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand mx-auto" href="#">Website Screenshot Tool</a>
+      <a class="navbar-brand mx-auto" href="#">{{title}}</a>
     </nav>
 
      <!-- Search bar -->
     <div class="container mt-4">
       <form id="search-form">
         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Enter a URL" name="url" required>
+          <input type="text" class="form-control mr-2" placeholder="Enter a URL in this format: (https://abc.com)" name="url" required>
           <div class="input-group-append">
-            <button class="btn btn-primary" type="submit">Search</button>
+            <button class="btn btn btn-success ml-4" type="submit">Screenshot</button>
           </div>
         </div>
       </form>

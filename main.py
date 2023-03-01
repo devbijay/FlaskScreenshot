@@ -5,7 +5,6 @@ from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
 from PIL import Image
 from io import BytesIO
-import time
 import asyncio
 from pyppeteer import launch
 
@@ -31,7 +30,8 @@ async def take_screenshot(url):
 
 @app.get("/", response_class=HTMLResponse)
 async def form(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+    title = """🅟🅨🅢🅒🅡🅔🅔🅝🅢🅗🅞🅣"""
+    return templates.TemplateResponse("index.html", {"request": request, "title": title})
 
 
 @app.get("/screenshot")
